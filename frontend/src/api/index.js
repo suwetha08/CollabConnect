@@ -11,21 +11,30 @@ const authHeaders = () => ({
 const request = async (url, options = {}) => {
   try {
     const fullUrl = `${BASE_URL}${url}`;
-    console.log('API Request:', fullUrl); // Debug log
+    console.log('🚀 API Request:', fullUrl);
+    console.log('📦 Request options:', options);
     
     const res = await fetch(fullUrl, options);
+    
+    console.log('📡 Response status:', res.status);
+    console.log('📡 Response headers:', res.headers.get('content-type'));
     
     // Check if response is JSON
     const contentType = res.headers.get('content-type');
     if (!contentType || !contentType.includes('application/json')) {
-      throw new Error(`Expected JSON but got ${contentType}. URL: ${fullUrl}`);
+      const text = await res.text();
+      console.error('❌ Expected JSON but got:', contentType);
+      console.error('❌ Response body:', text);
+      throw new Error(`Expected JSON but got ${contentType}. Check console for details.`);
     }
     
     const data = await res.json();
+    console.log('✅ Response data:', data);
+    
     if (!res.ok) throw new Error(data.error || 'Something went wrong');
     return data;
   } catch (err) {
-    console.error('API Error:', err);
+    console.error('❌ API Error:', err);
     throw err;
   }
 };
