@@ -55,6 +55,20 @@ app.use('/api/applicants', applicationRoutes);
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'OK', message: 'CollabConnect API running' }));
 
+// Test endpoint for debugging
+app.get('/api/test', (req, res) => {
+  res.json({ 
+    message: 'Backend is working!',
+    timestamp: new Date().toISOString(),
+    env: {
+      nodeEnv: process.env.NODE_ENV,
+      port: process.env.PORT,
+      hasDatabaseUrl: !!process.env.DATABASE_URL,
+      hasJwtSecret: !!process.env.JWT_SECRET
+    }
+  });
+});
+
 // 404 handler for API routes - return JSON instead of HTML
 app.use('/api/*', (req, res) => {
   res.status(404).json({ 

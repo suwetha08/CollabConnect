@@ -1,5 +1,5 @@
 // Centralized API service for all backend calls
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
 
 // Helper to get auth headers
 const authHeaders = () => ({
@@ -51,26 +51,26 @@ export const authAPI = {
 
 // Projects API
 export const projectsAPI = {
-  getAll: (params = '') => request(`/projects${params}`),
-  getById: (id) => request(`/projects/${id}`),
-  create: (body) => request('/projects', {
+  getAll: (params = '') => request(`/api/projects${params}`),
+  getById: (id) => request(`/api/projects/${id}`),
+  create: (body) => request('/api/projects', {
     method: 'POST',
     headers: authHeaders(),
     body: JSON.stringify(body)
   }),
-  getRecommended: () => request('/projects/recommended', { headers: authHeaders() })
+  getRecommended: () => request('/api/projects/recommended', { headers: authHeaders() })
 };
 
 // Applications API
 export const applicationsAPI = {
-  apply: (projectId) => request('/apply', {
+  apply: (projectId) => request('/api/apply', {
     method: 'POST',
     headers: authHeaders(),
     body: JSON.stringify({ projectId })
   }),
-  getMyApplications: () => request('/apply/my', { headers: authHeaders() }),
-  getApplicants: (projectId) => request(`/applicants/${projectId}`, { headers: authHeaders() }),
-  updateStatus: (body) => request('/application/status', {
+  getMyApplications: () => request('/api/apply/my', { headers: authHeaders() }),
+  getApplicants: (projectId) => request(`/api/applicants/${projectId}`, { headers: authHeaders() }),
+  updateStatus: (body) => request('/api/application/status', {
     method: 'PUT',
     headers: authHeaders(),
     body: JSON.stringify(body)
@@ -79,8 +79,8 @@ export const applicationsAPI = {
 
 // User API
 export const userAPI = {
-  getProfile: () => request('/users/profile', { headers: authHeaders() }),
-  updateProfile: (body) => request('/users/profile', {
+  getProfile: () => request('/api/users/profile', { headers: authHeaders() }),
+  updateProfile: (body) => request('/api/users/profile', {
     method: 'PUT',
     headers: authHeaders(),
     body: JSON.stringify(body)
