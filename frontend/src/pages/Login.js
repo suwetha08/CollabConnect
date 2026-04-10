@@ -4,7 +4,7 @@ import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { authAPI } from '../api';
 import { useAuth } from '../context/AuthContext';
 
-const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || 'your-google-client-id.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || 'your-google-client-id.apps.googleusercontent.com';
 
 const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });

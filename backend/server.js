@@ -55,6 +55,15 @@ app.use('/api/applicants', applicationRoutes);
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'OK', message: 'CollabConnect API running' }));
 
+// 404 handler for API routes - return JSON instead of HTML
+app.use('/api/*', (req, res) => {
+  res.status(404).json({ 
+    error: 'API endpoint not found',
+    path: req.originalUrl,
+    method: req.method
+  });
+});
+
 // Global error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
