@@ -12,10 +12,37 @@ const userRoutes = require('./routes/user.routes');
 const app = express();
 
 // Middleware
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://collab-connect-six.vercel.app'
+];
+
+app.use(cors({ 
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true 
+}));
 app.use(express.json());
 
 // Routes
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'CollabConnect API', 
+    status: 'running',
+    endpoints: {
+      health: '/api/health',
+      auth: '/api/auth',
+      projects: '/api/projects',
+      users: '/api/users'
+    }
+  });
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/apply', applicationRoutes);

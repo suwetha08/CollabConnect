@@ -1,5 +1,5 @@
 // Centralized API service for all backend calls
-const BASE_URL = '/api';
+const BASE_URL = process.env.REACT_APP_API_URL || '/api';
 
 // Helper to get auth headers
 const authHeaders = () => ({
